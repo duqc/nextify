@@ -1,0 +1,20 @@
+{
+	"manifest_version": 2,
+	"name": "NextifyTesters", 
+	"version": "1.4",
+
+	"description": "goes to the next page on some manga sites",
+	"homepage_url": "https://github.com/duqc/nextify",
+	"icons": {
+		"48": "icons/icon.png"
+	},
+
+	"content_scripts": [
+		{
+			"all_frames": true,
+			"match_about_blank": true,
+			"matches": ["*://*.chapmanganelo.com/*","*://*.chapmanganato.to/*","*://*.mangakakalot.com/*","*://*.opomanga.com/*"],
+			"js": ["ChangePage.js"]
+		}
+	]
+}
