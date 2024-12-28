@@ -1,3 +1,5 @@
+useAltEnterFunction = true // should probbly make a like dropdown menu for this idk. toggles using the next whole number chapter function instead of next non decimal
+
 function getScrollPercent() {
     var h = document.documentElement,
         b = document.body,
@@ -21,7 +23,7 @@ function scroll(x) {
         behavior: "smooth"
     })
 }
-function creatediv(){
+function creatediv() {
     var div = document.createElement('div');
     div.id = 'overlay';
     div.innerText = "Next non decimal chapter is chapter: "
@@ -30,10 +32,10 @@ function creatediv(){
     sty.color = "white"
     sty.backgroundColor = "grey"
     sty.opacity = "50%"
-    if (document.body.firstChild){
+    if (document.body.firstChild) {
         document.body.insertBefore(div, document.body.firstChild);
     }
-    else{
+    else {
         document.body.appendChild(div);
     }
     return div
@@ -63,12 +65,28 @@ if (document.location.host == "chapmanganato.to") {
     }
     luh = document.location.href.replace("-" + currentchap[0], "")
 
+
+    currentchapwholenumber = Array.from(j[currentchap[1]])[0]
     NextNonDecimal = ""
     for (var o = 1; o < 20; o++) {
         if (currentchap[1] - o < 0) {
             break
         }
         check = j[currentchap[1] - o]
+
+
+
+        if (
+            Array.from(check)[0] >
+            currentchapwholenumber 
+            && useAltEnterFunction
+        ) {
+            console.log("perhaps you wanted to go to chapter " + check)     
+            NextNonDecimal = check
+            numbertween = o
+            break
+        }
+
         guh = check.includes(".")
         if (!guh) {
             NextNonDecimal = check
@@ -76,19 +94,19 @@ if (document.location.host == "chapmanganato.to") {
             break
         }
     }
-    
-    if (NextNonDecimal == ""){
+
+    if (NextNonDecimal == "") {
         console.log("no next decimal link")
-        div.innerText = "all remaining chapters are decimals or this is the last chapter"
+        div.innerText = "all remaining chapters are sliced or this is the last chapter"
         NextNonDecimalLink = null
     }
-    else{
+    else {
         div.innerText = div.innerText + NextNonDecimal
-        div.innerText = div.innerText +  "\r\ncurent chapter is chapter:" + currentchap[0] + "\r\nyou would be skipping " + numbertween + " chapter(s)"
+        div.innerText = div.innerText + "\r\ncurent chapter is chapter:" + currentchap[0] + "\r\nyou would be skipping " + numbertween + " chapter(s)"
         NextNonDecimalLink = luh + "-" + NextNonDecimal
     }
 
-    
+
 
 }
 
@@ -99,7 +117,7 @@ window.addEventListener(
     "keydown",
     (event) => {
         if (event.defaultPrevented) {
-            return; // Do nothing if the event was already processed
+            return;
         }
 
         if (document.location.host == "chapmanganato.to" || document.location.host == "chapmanganelo.com") {
@@ -132,7 +150,7 @@ window.addEventListener(
                 if (NextNonDecimalLink != null) {
                     document.location.href = NextNonDecimalLink
                 }
-                else{
+                else {
                     console.log("none")
                 }
                 break;
