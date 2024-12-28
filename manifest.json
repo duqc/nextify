@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "NextifyTesters", 
-	"version": "1.4",
+	"version": "1.5",
 
 	"description": "goes to the next page on some manga sites",
 	"homepage_url": "https://github.com/duqc/nextify",

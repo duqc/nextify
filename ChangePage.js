@@ -22,21 +22,23 @@ function scroll(x) {
     })
 }
 function creatediv(){
-    var div = document.createElement('img');
+    var div = document.createElement('div');
     div.id = 'overlay';
-    div.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8-PyUtdz3qbc_vBJng2Ze8eJJnspmt-JvsQ&s"
-
+    div.innerText = "Next non decimal chapter is chapter: "
+    sty = div.style;
+    sty.position = "fixed"
+    sty.color = "white"
+    sty.backgroundColor = "grey"
+    sty.opacity = "50%"
     if (document.body.firstChild){
         document.body.insertBefore(div, document.body.firstChild);
     }
     else{
         document.body.appendChild(div);
     }
-    console.log("hella money hella money money money money")
     return div
 }
 var div = creatediv()
-console.log(div)
 
 currentchap = ""
 if (document.location.host == "mangakakalot.com") {
@@ -47,9 +49,8 @@ if (document.location.host == "mangakakalot.com") {
     } catch (error) {
         console.log(error)
     }
-
-
 }
+
 if (document.location.host == "chapmanganato.to") {
     listofchapters = document.getElementsByClassName("navi-change-chapter")[0].options
     j = []
@@ -71,11 +72,24 @@ if (document.location.host == "chapmanganato.to") {
         guh = check.includes(".")
         if (!guh) {
             NextNonDecimal = check
+            numbertween = o
             break
         }
     }
+    
+    if (NextNonDecimal == ""){
+        console.log("no next decimal link")
+        div.innerText = "all remaining chapters are decimals or this is the last chapter"
+        NextNonDecimalLink = null
+    }
+    else{
+        div.innerText = div.innerText + NextNonDecimal
+        div.innerText = div.innerText +  "\r\ncurent chapter is chapter:" + currentchap[0] + "\r\nyou would be skipping " + numbertween + " chapter(s)"
+        NextNonDecimalLink = luh + "-" + NextNonDecimal
+    }
 
-    NextNonDecimalLink = luh + "-" + NextNonDecimal
+    
+
 }
 
 
@@ -118,11 +132,14 @@ window.addEventListener(
                 if (NextNonDecimalLink != null) {
                     document.location.href = NextNonDecimalLink
                 }
+                else{
+                    console.log("none")
+                }
                 break;
 
             case "a":
             case "ArrowLeft":
-                //sound.play()
+
                 a = document.getElementsByClassName(classused[0]);
                 if (classused[0] == "col-md-6 next-post") {
                     a[1] = a[1].children[0]
@@ -137,7 +154,6 @@ window.addEventListener(
                 break;
             case "d":
             case "ArrowRight":
-                //sound.play()
                 a = document.getElementsByClassName(classused[1]);
                 if (a[1] == undefined) {
                     alert("this is the last chapter :(")
@@ -149,10 +165,8 @@ window.addEventListener(
 
                 break;
             default:
-                return; // Quit when this doesn't handle the key event.
+                return;
         }
-
-        // Cancel the default action to avoid it being handled twice
         event.preventDefault();
     }, true,
 );
