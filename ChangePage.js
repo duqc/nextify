@@ -1,4 +1,5 @@
 useAltEnterFunction = true // should probbly make a like dropdown menu for this idk. toggles using the next whole number chapter function instead of next non decimal
+tempNextChapFix = true //dude they broke the fucking site how the fuck is that even possible. fixes the next link by doing some fucky shit
 
 function getScrollPercent() {
     var h = document.documentElement,
@@ -65,10 +66,25 @@ if (document.location.host == "chapmanganato.to") {
     }
     luh = document.location.href.replace("-" + currentchap[0], "")
 
-
+    nextchapter = currentchap[1]
+    previouschapter = 
     currentchapwholenumber = Array.from(j[currentchap[1]])[0]
     NextNonDecimal = ""
     for (var o = 1; o < 20; o++) {
+        if (o == 1){
+            try {
+                nextChapter = j[currentchap[1] - o]
+            } catch (error) {
+                nextChapter = currentchap[1]
+            }
+            
+            try {
+                previouschapter = j[currentchap[1] + o]
+            } catch (error) {
+                previouschapter = currentchap[1]
+            }
+            
+        }
         if (currentchap[1] - o < 0) {
             break
         }
@@ -104,6 +120,8 @@ if (document.location.host == "chapmanganato.to") {
         div.innerText = div.innerText + NextNonDecimal
         div.innerText = div.innerText + "\r\ncurent chapter is chapter:" + currentchap[0] + "\r\nyou would be skipping " + numbertween + " chapter(s)"
         NextNonDecimalLink = luh + "-" + NextNonDecimal
+        nextLink = luh + "-" + nextChapter
+        prevLink = luh + "-" + previouschapter
     }
 
 
@@ -139,11 +157,11 @@ window.addEventListener(
                 break;
 
             case "w":
-                scroll(-50);
+                scroll(-200);
                 break;
 
             case "s":
-                scroll(50);
+                scroll(200);
                 break;
 
             case "Enter":
@@ -157,6 +175,15 @@ window.addEventListener(
 
             case "a":
             case "ArrowLeft":
+                if (tempNextChapFix){
+                    if (previouschapter == currentchap[1]){
+                        console.log ("somethings fucked")
+                    }else{
+                        console.log("help me help4")
+                        window.location.href = prevLink
+                    }
+                    break;
+                } 
 
                 a = document.getElementsByClassName(classused[0]);
                 if (classused[0] == "col-md-6 next-post") {
@@ -172,13 +199,24 @@ window.addEventListener(
                 break;
             case "d":
             case "ArrowRight":
+                if (tempNextChapFix){
+                    if (nextChapter == currentchap[1]){
+                        console.log ("somethings fucked")
+                    }else{
+                        console.log("help me help4")
+                        window.location.href = nextLink
+                    }
+                    break;
+                } 
+
                 a = document.getElementsByClassName(classused[1]);
                 if (a[1] == undefined) {
                     alert("this is the last chapter :(")
                 }
                 else if (getScrollPercent() < 30 || getScrollPercent() > 70 || getheight() < 10000) {
                     b = a[1].href
-                    window.location.href = b
+                    console.log(b)
+                    //window.location.href = b
                 }
 
                 break;
