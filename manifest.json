@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
-	"name": "NextifyTesters", 
-	"version": "1.5",
+	"name": "Nextify", 
+	"version": "1.6",
 
 	"description": "goes to the next page on some manga sites",
 	"homepage_url": "https://github.com/duqc/nextify",
@@ -13,8 +13,10 @@
 		{
 			"all_frames": true,
 			"match_about_blank": true,
-			"matches": ["*://*.chapmanganelo.com/*","*://*.chapmanganato.to/*","*://*.mangakakalot.com/*","*://*.opomanga.com/*"],
+			"matches": ["*://*.chapmanganelo.com/*","*://*.comick.io/comic/*","*://*.mangakakalot.com/*","*://*.opomanga.com/*"],
+			"run_at": "document_end",
 			"js": ["ChangePage.js"]
+			
 		}
 	]
 }

@@ -32,7 +32,9 @@ function creatediv() {
     sty.position = "fixed"
     sty.color = "white"
     sty.backgroundColor = "grey"
-    sty.opacity = "50%"
+    sty.opacity = "25%"
+    sty.marginLeft = "80px"
+    sty.zIndex = "999"
     if (document.body.firstChild) {
         document.body.insertBefore(div, document.body.firstChild);
     }
@@ -54,14 +56,14 @@ if (document.location.host == "mangakakalot.com") {
     }
 }
 
-if (document.location.host == "chapmanganato.to") {
-    listofchapters = document.getElementsByClassName("navi-change-chapter")[0].options
+async function duuude() {
+    await new Promise(r => setTimeout(r, 2000));
+    listofchapters = document.getElementsByClassName(" border-r border-l rounded-none border-gray-300 dark:border-gray-600 flex-1 ")[0].options
     j = []
     for (var i = 0; i < listofchapters.length; i++) {
-        j.push(listofchapters[i].dataset["c"]);
-        //Do something
+        j.push(listofchapters[i].innerHTML.match(/(\d+)/))[0];
         if (listofchapters[i].outerHTML.includes("selected")) {
-            currentchap = [listofchapters[i].dataset["c"], i]
+            currentchap = [listofchapters[i].innerHTML.match(/(\d+)/)[0] , i]
         }
     }
     luh = document.location.href.replace("-" + currentchap[0], "")
@@ -70,6 +72,9 @@ if (document.location.host == "chapmanganato.to") {
     previouschapter = 
     currentchapwholenumber = Array.from(j[currentchap[1]])[0]
     NextNonDecimal = ""
+
+    lastchap = j[0][0]
+    
     for (var o = 1; o < 20; o++) {
         if (o == 1){
             try {
@@ -88,9 +93,7 @@ if (document.location.host == "chapmanganato.to") {
         if (currentchap[1] - o < 0) {
             break
         }
-        check = j[currentchap[1] - o]
-
-
+        check = j[currentchap[1] - o][0]
 
         if (
             Array.from(check)[0] >
@@ -117,15 +120,20 @@ if (document.location.host == "chapmanganato.to") {
         NextNonDecimalLink = null
     }
     else {
-        div.innerText = div.innerText + NextNonDecimal
-        div.innerText = div.innerText + "\r\ncurent chapter is chapter:" + currentchap[0] + "\r\nyou would be skipping " + numbertween + " chapter(s)"
+        //div.innerText = div.innerText + NextNonDecimal
+        div.innerText = div.innerText + "\r\ncurent chapter is chapter:" + Array.from(j[currentchap[1]])[0]// + "\r\nyou would be skipping " + numbertween + " chapter(s) \r\n"
+        div.innerText = div.innerText + "\r\nlast chapter = " + lastchap + " There are " + (lastchap-currentchap[0]) +" chapters left"
         NextNonDecimalLink = luh + "-" + NextNonDecimal
         nextLink = luh + "-" + nextChapter
         prevLink = luh + "-" + previouschapter
     }
+    
+}
 
 
 
+if (document.location.host == "comick.io") {
+    duuude()
 }
 
 
@@ -175,50 +183,53 @@ window.addEventListener(
 
             case "a":
             case "ArrowLeft":
-                if (tempNextChapFix){
-                    if (previouschapter == currentchap[1]){
-                        console.log ("somethings fucked")
-                    }else{
-                        console.log("help me help4")
-                        window.location.href = prevLink
-                    }
-                    break;
-                } 
+                if (document.location.host != "comick.io"){
+                    if (tempNextChapFix){
+                        if (previouschapter == currentchap[1]){
+                            console.log ("somethings fucked")
+                        }else{
+                            console.log("help me help4")
+                            window.location.href = prevLink
+                        }
+                        break;
+                    } 
 
-                a = document.getElementsByClassName(classused[0]);
-                if (classused[0] == "col-md-6 next-post") {
-                    a[1] = a[1].children[0]
-                }
-                if (a[1] == undefined) {
-                    alert("this is the first chapter")
-                }
-                else if (getScrollPercent() < 30 || getScrollPercent() > 70 || getheight() < 10000) {
-                    b = a[1].href
-                    window.location.href = b
+                    a = document.getElementsByClassName(classused[0]);
+                    if (classused[0] == "col-md-6 next-post") {
+                        a[1] = a[1].children[0]
+                    }
+                    if (a[1] == undefined) {
+                        alert("this is the first chapter")
+                    }
+                    else if (getScrollPercent() < 30 || getScrollPercent() > 70 || getheight() < 10000) {
+                        b = a[1].href
+                        window.location.href = b
+                    }
                 }
                 break;
             case "d":
             case "ArrowRight":
-                if (tempNextChapFix){
-                    if (nextChapter == currentchap[1]){
-                        console.log ("somethings fucked")
-                    }else{
-                        console.log("help me help4")
-                        window.location.href = nextLink
+                if (document.location.host != "comick.io"){
+                    if (tempNextChapFix){
+                        if (nextChapter == currentchap[1]){
+                            console.log ("somethings fucked")
+                        }else{
+                            console.log("help me help4")
+                            window.location.href = nextLink
+                        }
+                        break;
+                    } 
+
+                    a = document.getElementsByClassName(classused[1]);
+                    if (a[1] == undefined) {
+                        alert("this is the last chapter :(")
                     }
-                    break;
-                } 
-
-                a = document.getElementsByClassName(classused[1]);
-                if (a[1] == undefined) {
-                    alert("this is the last chapter :(")
+                    else if (getScrollPercent() < 30 || getScrollPercent() > 70 || getheight() < 10000) {
+                        b = a[1].href
+                        console.log(b)
+                        //window.location.href = b
+                    }
                 }
-                else if (getScrollPercent() < 30 || getScrollPercent() > 70 || getheight() < 10000) {
-                    b = a[1].href
-                    console.log(b)
-                    //window.location.href = b
-                }
-
                 break;
             default:
                 return;
