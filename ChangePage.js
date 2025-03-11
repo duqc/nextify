@@ -27,7 +27,7 @@ function scroll(x) {
 function creatediv() {
     var div = document.createElement('div');
     div.id = 'overlay';
-    div.innerText = "Next non decimal chapter is chapter: "
+    //div.innerText = "Next non decimal chapter is chapter: "
     sty = div.style;
     sty.position = "fixed"
     sty.color = "white"
