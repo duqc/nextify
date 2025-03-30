@@ -30,10 +30,12 @@ function creatediv() {
     //div.innerText = "Next non decimal chapter is chapter: "
     sty = div.style;
     sty.position = "fixed"
-    sty.color = "white"
-    sty.backgroundColor = "grey"
-    sty.opacity = "25%"
-    sty.marginLeft = "80px"
+    sty.color = "rgb(255, 255, 255)"
+    sty.backgroundColor = "rgba(65, 65, 65, 0.6)"
+
+    sty.opacity = "50%"
+    sty.marginLeft = "5px"
+    sty.marginTop = "80px"
     sty.zIndex = "999"
     if (document.body.firstChild) {
         document.body.insertBefore(div, document.body.firstChild);
@@ -57,7 +59,8 @@ if (document.location.host == "mangakakalot.com") {
 }
 
 async function duuude() {
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 1000));
+    div.innerText = ""
     listofchapters = document.getElementsByClassName(" border-r border-l rounded-none border-gray-300 dark:border-gray-600 flex-1 ")[0].options
     j = []
     for (var i = 0; i < listofchapters.length; i++) {
@@ -100,7 +103,7 @@ async function duuude() {
             currentchapwholenumber 
             && useAltEnterFunction
         ) {
-            console.log("perhaps you wanted to go to chapter " + check)     
+            //console.log("perhaps you wanted to go to chapter " + check)     
             NextNonDecimal = check
             numbertween = o
             break
@@ -116,13 +119,16 @@ async function duuude() {
 
     if (NextNonDecimal == "") {
         console.log("no next decimal link")
-        div.innerText = "all remaining chapters are sliced or this is the last chapter"
+        div.innerText = "this is the last chapter"
         NextNonDecimalLink = null
     }
     else {
         //div.innerText = div.innerText + NextNonDecimal
-        div.innerText = div.innerText + "\r\ncurent chapter is chapter:" + Array.from(j[currentchap[1]])[0]// + "\r\nyou would be skipping " + numbertween + " chapter(s) \r\n"
-        div.innerText = div.innerText + "\r\nlast chapter = " + lastchap + " There are " + (lastchap-currentchap[0]) +" chapters left"
+        div.innerText = div.innerText + "Current Chapter: " + Array.from(j[currentchap[1]])[0]// + "\r\nyou would be skipping " + numbertween + " chapter(s) \r\n"
+        div.innerText = div.innerText + "\r\nLast Chapter: " + lastchap + "\r\nChapters left: "+ (lastchap-currentchap[0])
+
+
+
         NextNonDecimalLink = luh + "-" + NextNonDecimal
         nextLink = luh + "-" + nextChapter
         prevLink = luh + "-" + previouschapter
@@ -130,13 +136,31 @@ async function duuude() {
     
 }
 
+async function main(){
+    commentsKill()
+    while (true){
+        await new Promise(r => setTimeout(r, 250));
+        duuude()
+    }
 
-
-if (document.location.host == "comick.io") {
-    duuude()
 }
 
+if (document.location.host == "comick.io") {
+    main()
+}
 
+window.addEventListener("beforeunload", function (event) {
+    console.log("Hi Bro")
+ });
+
+
+async function commentsKill(){
+    await new Promise(r => setTimeout(r,1000));
+    commentsContainer = document.getElementById("comment-section")
+    comments = document.getElementById("comments-container")
+    comments.className += " hidden"
+    commentsContainer.className = commentsContainer.className.replace("myscrollbar","") 
+}
 
 
 window.addEventListener(
@@ -157,20 +181,20 @@ window.addEventListener(
 
 
         switch (event.key) {
-            case "q":
-                scroll(-700);
-                break;
-            case "e":
-                scroll(700)
-                break;
+            // case "q":
+            //     scroll(-700);
+            //     break;
+            // case "e":
+            //     scroll(700)
+            //     break;
 
-            case "w":
-                scroll(-200);
-                break;
+            // case "w":
+            //     scroll(-200);
+            //     break;
 
-            case "s":
-                scroll(200);
-                break;
+            // case "s":
+            //     scroll(200);
+            //     break;
 
             case "Enter":
                 if (NextNonDecimalLink != null) {
@@ -181,8 +205,9 @@ window.addEventListener(
                 }
                 break;
 
-            case "a":
+            //case "a":
             case "ArrowLeft":
+                commentsKill()
                 if (document.location.host != "comick.io"){
                     if (tempNextChapFix){
                         if (previouschapter == currentchap[1]){
@@ -207,8 +232,9 @@ window.addEventListener(
                     }
                 }
                 break;
-            case "d":
+            //case "d":
             case "ArrowRight":
+                commentsKill()
                 if (document.location.host != "comick.io"){
                     if (tempNextChapFix){
                         if (nextChapter == currentchap[1]){
